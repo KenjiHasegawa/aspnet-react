@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using GuestCheckApp.Models;
 
 namespace GuestCheckApp.Controllers
 {
@@ -11,36 +12,36 @@ namespace GuestCheckApp.Controllers
     [ApiController]
     public class GuestCheckController : ControllerBase
     {
-        // GET: api/GuestCheck
+        DataAccessLayer obj = new DataAccessLayer();
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("api/GuestCheck/Index")]
+        public IEnumerable<TblGuestCheck> Index()
         {
-            return new string[] { "value1", "value2" };
+            return obj.GetAllGuestChecks();
         }
-
-        // GET: api/GuestCheck/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/GuestCheck
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("api/GuestCheck/Create")]
+        public int Create(TblGuestCheck guestCheck)
         {
+            return obj.AddGuestCheck(guestCheck);
         }
-
-        // PUT: api/GuestCheck/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet]
+        [Route("api/GuestCheck/Details/{id}")]
+        public TblGuestCheck Details(int id)
         {
+            return obj.GetGuestCheckData(id);
         }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut]
+        [Route("api/GuestCheck/Edit")]
+        public int Edit(TblGuestCheck guestCheck)
         {
+            return obj.UpdateGuestCheck(guestCheck);
+        }
+        [HttpDelete]
+        [Route("api/GuestCheck/Delete/{id}")]
+        public int Delete(int id)
+        {
+            return obj.DeleteGuestCheck(id);
         }
     }
 }

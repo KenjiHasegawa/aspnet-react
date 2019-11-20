@@ -6,10 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace GuestCheckApp.Models
 {
-    public class ProductDataAccessLayer
+    public class DataAccessLayer
     {
         GuestCheckAppKenji_dbContext db = new GuestCheckAppKenji_dbContext();
-        public IEnumerable<TblGuestCheck> GetAllProducts()
+        public IEnumerable<TblGuestCheck> GetAllGuestChecks()
         {
             try
             {
@@ -84,6 +84,14 @@ namespace GuestCheckApp.Models
             return product;
         }
 
+        //To Get the list of CheckListProducts   
+        public List<TblGuestCheckProduct> GetGuestCheckProducts()
+        {
+            List<TblGuestCheckProduct> product = new List<TblGuestCheckProduct>();
+            product = (from ProductList in db.TblGuestCheckProduct select ProductList).ToList();
+            return product;
+        }
+
         //To Add new GuestCheckProduct record     
         public int AddGuestCheckProduct(TblGuestCheckProduct guestCheckProduct)
         {
@@ -99,13 +107,28 @@ namespace GuestCheckApp.Models
             }
         }
 
+        //To Update the records of a particluar GuestCheckProduct    
+        public int UpdateGuestCheckProduct(TblGuestCheckProduct guestCheckProduct)
+        {
+            try
+            {
+                db.Entry(guestCheckProduct).State = EntityState.Modified;
+                db.SaveChanges();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         //To Delete the record of a particular GuestCheckProduct    
         public int DeleteGuestCheckProduct(int id)
         {
             try
             {
                 TblGuestCheckProduct guestCheckProduct = db.TblGuestCheckProduct.Find(id);
-                db.TblGuestCheck.Remove(guestCheckProduct);
+                db.TblGuestCheckProduct.Remove(guestCheckProduct);
                 db.SaveChanges();
                 return 1;
             }
