@@ -14,8 +14,7 @@ namespace GuestCheckApp.Controllers
     {
         DataAccessLayer obj = new DataAccessLayer();
         [HttpGet]
-        [Route("api/Product/Index")]
-        public IEnumerable<TblProduct> Index()
+        public IEnumerable<TblProduct> Get()
         {
             return obj.GetProducts();
         }
