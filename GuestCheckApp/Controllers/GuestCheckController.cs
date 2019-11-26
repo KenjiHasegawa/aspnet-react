@@ -13,37 +13,76 @@ namespace GuestCheckApp.Controllers
     public class GuestCheckController : ControllerBase
     {
         GuestCheckAccessLayer obj = new GuestCheckAccessLayer();
-        [HttpGet]
-        public IEnumerable<GuestCheck> GetAllGuestChecks()
-        {
-            return obj.GetAllGuestChecks();
-        }
+        GuestCheckProductAccessLayer objProduct = new GuestCheckProductAccessLayer();
 
         [HttpGet]
-        public GuestCheck Details(int id)
+        // GET api/GuestCheck
+        public IEnumerable<GuestCheck> Get() => obj.GetAllGuestChecks();
+
+        [HttpGet]
+        [Route("api/GuestCheck/Details")]
+        public List<Object> Details(int id)
         {
-            return obj.GetGuestCheckData(id);
+            List<Object> result = new List<Object>();
+
+            GuestCheck guestCheck = obj.GetGuestCheckData(id);
+            result.Add(guestCheck);
+
+            List<GuestCheckProduct> guestCheckProducts= objProduct.GetGuestCheckProducts(id);
+            result.Add(guestCheckProducts);
+
+            return result;
         }
 
         [HttpPost]
         [Route("api/GuestCheck/Create")]
-        public int Create(GuestCheck guestCheck)
+        public int Create(GuestCheck guestCheck, List<GuestCheckProduct> products)
         {
-            return obj.AddGuestCheck(guestCheck);
+            int id = obj.AddGuestCheck(guestCheck);
+            List<GuestCheckProduct> guestCheckProducts = new List<GuestCheckProduct>();
+
+            if (id > 0)
+            {
+                foreach (GuestCheckProduct elem in products) {
+                    guestCheckProducts.Add(new GuestCheckProduct(){
+                        GuestCheckID = id,
+                        ProductID = elem.ProductID,
+                        ProductQty = elem.ProductQty
+                    });
+                }
+
+                return objProduct.AddGuestCheckProductList(guestCheckProducts);
+            }
+
+            return 0;
         }
 
         
         [HttpPut]
         [Route("api/GuestCheck/Edit")]
-        public int Edit(GuestCheck guestCheck)
+        public int Edit(GuestCheck guestCheck, List<GuestCheckProduct> products)
         {
-            return obj.UpdateGuestCheck(guestCheck);
+            int id = obj.UpdateGuestCheck(guestCheck);
+            List<GuestCheckProduct> guestCheckProducts = new List<GuestCheckProduct>();
+
+            if (id > 0)
+            {
+                foreach (GuestCheckProduct elem in products)
+                {
+                    guestCheckProducts.Add(new GuestCheckProduct()
+                    {
+                        GuestCheckID = id,
+                        ProductID = elem.ProductID,
+                        ProductQty = elem.ProductQty
+                    });
+                }
+
+                return objProduct.UpdateGuestCheckProduct(guestCheckProducts);
+            }
+
+            return 0;
+
         }
-        [HttpDelete]
-        [Route("api/GuestCheck/Delete/{id}")]
-        public int Delete(int id)
-        {
-            return obj.DeleteGuestCheck(id);
-        }
+
     }
 }

@@ -20,6 +20,20 @@ namespace GuestCheckApp.Models
                 throw;
             }
         }
+
+        public GuestCheck GetGuestCheckData(int id)
+        {
+            try
+            {
+                GuestCheck guestCheck = db.GuestCheck.Find(id);
+                return guestCheck;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         //To Add new GuestCheck record     
         public int AddGuestCheck(GuestCheck guestCheck)
         {
@@ -40,34 +54,6 @@ namespace GuestCheckApp.Models
             try
             {
                 db.Entry(guestCheck).State = EntityState.Modified;
-                db.SaveChanges();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        //Get the details of a particular GuestCheck    
-        public GuestCheck GetGuestCheckData(int id)
-        {
-            try
-            {
-                GuestCheck guestCheck = db.GuestCheck.Find(id);
-                return guestCheck;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        //To Delete the record of a particular GuestCheck    
-        public int DeleteGuestCheck(int id)
-        {
-            try
-            {
-                GuestCheck guestCheck = db.GuestCheck.Find(id);
-                db.GuestCheck.Remove(guestCheck);
                 db.SaveChanges();
                 return 1;
             }

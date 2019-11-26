@@ -14,15 +14,10 @@ namespace GuestCheckApp.Controllers
     {
         ProductAccessLayer obj = new ProductAccessLayer();
         [HttpGet]
-        public IEnumerable<Product> Get()
-        {
-            return obj.GetProducts();
-        }
+        public IEnumerable<Product> Get() => obj.GetProducts();
 
         [HttpGet]
-        public Product Details(int id)
-        {
-            return obj.GetProductData(id);
-        }
+        [Route("api/Product/Details")]
+        public Product Details(int id) => obj.GetProductData(id);
     }
 }

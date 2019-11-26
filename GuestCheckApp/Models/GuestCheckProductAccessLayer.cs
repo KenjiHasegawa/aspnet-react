@@ -14,7 +14,7 @@ namespace GuestCheckApp.Models
         public List<GuestCheckProduct> GetGuestCheckProducts(int guestCheckID)
         {
             List<GuestCheckProduct> product = new List<GuestCheckProduct>();
-            product = db.GuestCheckProduct.Where(a => a.GuestCheckId == guestCheckID).ToList();
+            product = db.GuestCheckProduct.Where(a => a.GuestCheckID == guestCheckID).ToList();
             return product;
         }
 
@@ -37,11 +37,14 @@ namespace GuestCheckApp.Models
         }
 
         //To Update the records of a particluar GuestCheckProduct    
-        public int UpdateGuestCheckProduct(GuestCheckProduct guestCheckProduct)
+        public int UpdateGuestCheckProduct(List<GuestCheckProduct> guestCheckProduct)
         {
             try
             {
-                db.Entry(guestCheckProduct).State = EntityState.Modified;
+                foreach (GuestCheckProduct product in guestCheckProduct)
+                {
+                    db.Entry(product).State = EntityState.Modified;
+                }
                 db.SaveChanges();
                 return 1;
             }

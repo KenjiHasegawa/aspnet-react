@@ -25,12 +25,9 @@ namespace GuestCheckApp.Models
         {
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasKey(e => e.ProductId)
-                    .HasName("PK__tblProdu__B40CC6EDBA7FA51C");
+                entity.ToTable("Product");
 
-                entity.ToTable("tblProduct");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+                entity.Property(e => e.ProductID).HasColumnName("ProductID");
 
                 entity.Property(e => e.ProductDescription)
                     .IsRequired()
@@ -59,12 +56,9 @@ namespace GuestCheckApp.Models
 
             modelBuilder.Entity<GuestCheck>(entity =>
             {
-                entity.HasKey(e => e.GuestCheckId)
-                    .HasName("PK__tblGuest__4E4854116B416188");
+                entity.ToTable("GuestCheck");
 
-                entity.ToTable("tblGuestCheck");
-
-                entity.Property(e => e.GuestCheckId).HasColumnName("GuestCheckID");
+                entity.Property(e => e.GuestCheckID).HasColumnName("GuestCheckID");
 
                 entity.Property(e => e.GuestCheckStatus)
                     .IsRequired()
