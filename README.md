@@ -1,18 +1,20 @@
 # aspnet-react
 
 ### Application available on Azure for more 20 days (so expensive..):
-https://guestcheckappkenji.azurewebsites.net
+[GuestCheckApp](https://guestcheckappkenji.azurewebsites.net)
+
+Unfortunately, it is, still, a Work In Progress.
 
 ### Project built with:
 
-#### cross-platform server-side code:
+#### C+ross-platform server-side code:
 * [ASP.NET Core 3.0](https://get.asp.net/)
 * [C#](https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx)
 
-#### client-side code:
+#### Client-side code:
 * [React](https://facebook.github.io/react/)
 
-#### layout and styling
+#### Layout and styling:
 * [Bootstrap](http://getbootstrap.com/)
 
 ### Used React Packages (until now):
@@ -31,7 +33,7 @@ npm install react-icons
 
 ## To Do List
 - [x] Published Application on Azure (can be updated using Visual Studio)
-- [x] Use remote SQL Server
+- [x] Connect to remote SQL Server Database (need security improvements)
 - [x] Server side API
 - [x] Fetch Products
 - [x] Fetch Guest Checks
@@ -44,7 +46,7 @@ npm install react-icons
 - [ ] Beautify Front-end
 - [ ] Improve User Experience
 
-## Personal Study Duty (not in precise order)
+## To Study List (not in precise order)
 - [ ] SQL Server Procedures
 - [ ] Typescript
 - [ ] C# Back-end tests
