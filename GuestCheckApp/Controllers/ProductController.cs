@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using GuestCheckApp.Models;
 
 namespace GuestCheckApp.Controllers
 {
@@ -11,18 +12,12 @@ namespace GuestCheckApp.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        // GET: api/Product
+        ProductAccessLayer obj = new ProductAccessLayer();
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        public IEnumerable<Product> Get() => obj.GetProducts();
 
-        // GET: api/Product/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        [HttpGet]
+        [Route("api/Product/Details")]
+        public Product Details(int id) => obj.GetProductData(id);
     }
 }

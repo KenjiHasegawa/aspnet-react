@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using GuestCheckApp.Models;
+using Newtonsoft.Json.Linq;
 
 namespace GuestCheckApp.Controllers
 {
@@ -11,36 +13,85 @@ namespace GuestCheckApp.Controllers
     [ApiController]
     public class GuestCheckController : ControllerBase
     {
-        // GET: api/GuestCheck
+        GuestCheckAccessLayer obj = new GuestCheckAccessLayer();
+        GuestCheckProductAccessLayer objProduct = new GuestCheckProductAccessLayer();
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        // GET api/GuestCheck
+        public IEnumerable<GuestCheck> Get() => obj.GetAllGuestChecks();
+
+        [HttpGet("{id}")]
+        public List<Object> Details(int id)
         {
-            return new string[] { "value1", "value2" };
+            List<Object> result = new List<Object>();
+
+            GuestCheck guestCheck = obj.GetGuestCheckData(id);
+            result.Add(guestCheck);
+
+            List<GuestCheckProduct> guestCheckProducts= objProduct.GetGuestCheckProducts(id);
+            result.Add(guestCheckProducts);
+
+            return result;
         }
 
-        // GET: api/GuestCheck/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/GuestCheck
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("api/GuestCheck/Create")]
+        public int Create([FromBody]JObject postData)
         {
+            
+            List<GuestCheckProduct> products = postData["GuestCheckProducts"].ToObject<List<GuestCheckProduct>>();
+            List<GuestCheckProduct> guestCheckProducts = new List<GuestCheckProduct>();
+
+            GuestCheck guestCheck = postData["GuestCheck"].ToObject<GuestCheck>();
+
+            int id = obj.AddGuestCheck(guestCheck);
+            
+            if (id > 0)
+            {
+                foreach (GuestCheckProduct elem in products) {
+                    guestCheckProducts.Add(new GuestCheckProduct(){
+                        GuestCheckID = id,
+                        ProductID = elem.ProductID,
+                        ProductQty = elem.ProductQty
+                    });
+                }
+
+                return objProduct.AddGuestCheckProductList(guestCheckProducts);
+            }
+
+            return 0;
         }
 
-        // PUT: api/GuestCheck/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        
+        [HttpPut]
+        [Route("api/GuestCheck/Edit")]
+        public int Edit([FromBody]JObject postData)
         {
+            List<GuestCheckProduct> products = postData["GuestCheckProducts"].ToObject<List<GuestCheckProduct>>();
+            List<GuestCheckProduct> guestCheckProducts = new List<GuestCheckProduct>();
+
+            GuestCheck guestCheck = postData["GuestCheck"].ToObject<GuestCheck>();
+
+            int id = obj.UpdateGuestCheck(guestCheck);
+
+            if (id > 0)
+            {
+                foreach (GuestCheckProduct elem in products)
+                {
+                    guestCheckProducts.Add(new GuestCheckProduct()
+                    {
+                        GuestCheckID = id,
+                        ProductID = elem.ProductID,
+                        ProductQty = elem.ProductQty
+                    });
+                }
+
+                return objProduct.UpdateGuestCheckProduct(guestCheckProducts);
+            }
+
+            return 0;
+
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
