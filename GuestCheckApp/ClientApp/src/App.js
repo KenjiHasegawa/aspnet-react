@@ -5,7 +5,7 @@ import { Home } from './components/Home';
 import { FetchProduct } from './components/FetchProduct';
 import { FetchGuestCheck } from './components/FetchGuestCheck';
 
-import './custom.css'
+import './custom.scss'
 
 export default class App extends Component {
     static displayName = App.name;
