@@ -14,7 +14,7 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Product' and xtype='U')
 		,ProductName varchar(20) NOT NULL      
 		,ProductDescription varchar(20) NOT NULL    
 		,ProductType VARCHAR(10) NOT NULL CHECK (ProductType IN('drink','food','dessert')) 
-		,ProductValue FLOAT DEFAULT 0.00 NOT NULL
+		,ProductValue DECIMAL(9,2) DEFAULT 0.00 NOT NULL
 	)      
 GO      
 
