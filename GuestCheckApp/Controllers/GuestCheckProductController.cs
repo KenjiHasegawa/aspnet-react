@@ -12,29 +12,26 @@ namespace GuestCheckApp.Controllers
     [ApiController]
     public class GuestCheckProductController : ControllerBase
     {
-        DataAccessLayer obj = new DataAccessLayer();
+        GuestCheckProductAccessLayer obj = new GuestCheckProductAccessLayer();
 
         [HttpGet]
-        [Route("api/GuestCheckProduct/Index")]
-        public IEnumerable<TblGuestCheckProduct> Index()
+        public IEnumerable<GuestCheckProduct> Get(int guestCheckID)
         {
-            return obj.GetGuestCheckProducts();
+            return obj.GetGuestCheckProducts(guestCheckID);
         }
+
         [HttpPost]
-        [Route("api/GuestCheckProduct/Create")]
-        public int Create(TblGuestCheckProduct guestCheckProduct)
+        public int Create(List<GuestCheckProduct> guestCheckProduct)
         {
-            return obj.AddGuestCheckProduct(guestCheckProduct);
+            return obj.AddGuestCheckProductList(guestCheckProduct);
         }
 
         [HttpPut]
-        [Route("api/GuestCheckProduct/Edit")]
-        public int Edit(TblGuestCheckProduct guestCheckProduct)
+        public int Edit(GuestCheckProduct guestCheckProduct)
         {
             return obj.UpdateGuestCheckProduct(guestCheckProduct);
         }
         [HttpDelete]
-        [Route("api/GuestCheckProduct/Delete/{id}")]
         public int Delete(int id)
         {
             return obj.DeleteGuestCheckProduct(id);

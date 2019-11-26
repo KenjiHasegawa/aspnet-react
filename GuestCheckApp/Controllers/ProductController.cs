@@ -12,11 +12,17 @@ namespace GuestCheckApp.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        DataAccessLayer obj = new DataAccessLayer();
+        ProductAccessLayer obj = new ProductAccessLayer();
         [HttpGet]
-        public IEnumerable<TblProduct> Get()
+        public IEnumerable<Product> Get()
         {
             return obj.GetProducts();
+        }
+
+        [HttpGet]
+        public Product Details(int id)
+        {
+            return obj.GetProductData(id);
         }
     }
 }
