@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,11 @@ namespace GuestCheckApp.Models
             {
                 throw;
             }
+        }
+
+        internal int AddGuestCheck(JToken jToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

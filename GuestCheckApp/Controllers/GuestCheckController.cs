@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GuestCheckApp.Models;
+using Newtonsoft.Json.Linq;
 
 namespace GuestCheckApp.Controllers
 {
@@ -19,8 +20,7 @@ namespace GuestCheckApp.Controllers
         // GET api/GuestCheck
         public IEnumerable<GuestCheck> Get() => obj.GetAllGuestChecks();
 
-        [HttpGet]
-        [Route("api/GuestCheck/Details")]
+        [HttpGet("{id}")]
         public List<Object> Details(int id)
         {
             List<Object> result = new List<Object>();
@@ -36,11 +36,16 @@ namespace GuestCheckApp.Controllers
 
         [HttpPost]
         [Route("api/GuestCheck/Create")]
-        public int Create(GuestCheck guestCheck, List<GuestCheckProduct> products)
+        public int Create([FromBody]JObject postData)
         {
-            int id = obj.AddGuestCheck(guestCheck);
+            
+            List<GuestCheckProduct> products = postData["GuestCheckProducts"].ToObject<List<GuestCheckProduct>>();
             List<GuestCheckProduct> guestCheckProducts = new List<GuestCheckProduct>();
 
+            GuestCheck guestCheck = postData["GuestCheck"].ToObject<GuestCheck>();
+
+            int id = obj.AddGuestCheck(guestCheck);
+            
             if (id > 0)
             {
                 foreach (GuestCheckProduct elem in products) {
@@ -60,10 +65,14 @@ namespace GuestCheckApp.Controllers
         
         [HttpPut]
         [Route("api/GuestCheck/Edit")]
-        public int Edit(GuestCheck guestCheck, List<GuestCheckProduct> products)
+        public int Edit([FromBody]JObject postData)
         {
-            int id = obj.UpdateGuestCheck(guestCheck);
+            List<GuestCheckProduct> products = postData["GuestCheckProducts"].ToObject<List<GuestCheckProduct>>();
             List<GuestCheckProduct> guestCheckProducts = new List<GuestCheckProduct>();
+
+            GuestCheck guestCheck = postData["GuestCheck"].ToObject<GuestCheck>();
+
+            int id = obj.UpdateGuestCheck(guestCheck);
 
             if (id > 0)
             {

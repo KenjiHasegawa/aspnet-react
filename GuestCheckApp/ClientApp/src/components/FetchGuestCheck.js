@@ -1,52 +1,71 @@
 ﻿import React, { Component } from 'react';
+import GuestCheckAddButton, { GuestCheckModal } from './GuestCheckModal';
 
 export class FetchGuestCheck extends Component {
-    static displayName = FetchGuestCheck.name;
-
     constructor(props) {
         super(props);
-        this.state = { guestChecks: [], loading: true };
+        this.state = {
+            guestChecks: [],
+            loading: true,
+            showModal: false,
+            guestCheck: {},
+            guestCheckProducts: {}
+        };
     }
-
+    
     componentDidMount() {
         this.populateGuestCheckData();
-    }
+    };
 
-    static renderGuestCheckTable(guestChecks) {
-        return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Status</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {guestChecks.map(guestCheck =>
-                        <tr key={guestCheck.guestCheckID}>
-                            <td>{guestCheck.guestCheckID}</td>
-                            <td>{guestCheck.guestCheckStatus}</td>
-                            <td>{guestCheck.guestCheckValue}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        );
-    }
+    handleRowClick = e => {
+        const id = e.currentTarget.getAttribute("data-rowid");
+        this.populateGuestCheckModal(id);
+    };
+      
 
     render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : FetchGuestCheck.renderGuestCheckTable(this.state.guestChecks);
+        let modalTitle = this.state.GuestCheck
+            ? "Guest Check #" + this.state.GuestCheck.GuestCheckID + "<small>Created on: " + this.state.GuestCheck.GuestCheckDateCreated + "</small>"
+            : "New Guest Check";
 
         return (
             <div>
-                <h1 id="tabelLabel" >Guest Check List</h1>
-                {contents}
+                <h1 id="tableLabel">Guest Check List</h1>
+                <GuestCheckAddButton />
+                <GuestCheckModal show={this.state.showModal} guestCheck={this.state.guestCheck} guestCheckProducts={this.state.guestCheckProducts} modalTitle={modalTitle} />
+                <table className='table table-striped' aria-labelledby="tabelLabel">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.guestChecks.map(guestCheck =>
+                            <tr key={guestCheck.guestCheckID} data-rowid={guestCheck.guestCheckID} onClick={this.handleRowClick}>
+                                <td>{guestCheck.guestCheckStatus}</td>
+                                <td>{guestCheck.guestCheckValue}</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
         );
-    }
+    };
+
+    async populateGuestCheckModal(id) {
+        const response = await fetch(`api/GuestCheck/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        const data = await response.json();
+        this.setState({ guestCheck: data.guestCheck });
+        this.setState({ guestCheckProducts: data.guestCheckProducts });
+        this.setState({ showModal: true });
+    };
 
     async populateGuestCheckData() {
         const response = await fetch('api/GuestCheck', {
@@ -57,5 +76,5 @@ export class FetchGuestCheck extends Component {
         });
         const data = await response.json();
         this.setState({ guestChecks: data, loading: false });
-    }
-}
+    };
+};
