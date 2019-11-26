@@ -1,8 +1,6 @@
 ﻿import React, { Component } from 'react';
 
 export class FetchProduct extends Component {
-    static displayName = FetchProduct.name;
-
     constructor(props) {
         super(props);
         this.state = { products: [], loading: true };
