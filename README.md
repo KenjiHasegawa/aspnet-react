@@ -1,9 +1,10 @@
 # aspnet-react
 
+My first ASP.NET + React project, no knowledge in both stacks. Work In Progress.
+
 ### Application available on Azure for more 20 days (so expensive..):
 [GuestCheckApp](https://guestcheckappkenji.azurewebsites.net)
 
-Unfortunately, it is, still, a Work In Progress.
 
 ### Project built with:
 
@@ -17,7 +18,7 @@ Unfortunately, it is, still, a Work In Progress.
 #### Layout and styling:
 * [Bootstrap](http://getbootstrap.com/)
 
-### Used React Packages (until now):
+### Installed React Packages (until now):
 ```
 npm install @types/react 
 npm install @types/react-dom
@@ -40,15 +41,17 @@ npm install react-icons
 - [x] Fetch Guest Checks Products
 - [ ] Add New Guest Checks
 - [ ] Add New Products to Guest Checks
+- [ ] Separate by Pages and use react-router better
 - [ ] Edit Guest Checks
 - [ ] Create Report Procedures
 - [ ] Show Reports on client-side
 - [ ] Beautify Front-end
 - [ ] Improve User Experience
 
-## To Study List (not in precise order)
+## Further Study Needed List
 - [ ] SQL Server Procedures
 - [ ] Typescript
 - [ ] C# Back-end tests
 - [ ] React Front-end tests
 - [ ] React Components
+- [ ] React Local Storage
