@@ -8,7 +8,7 @@ My first ASP.NET + React project, no knowledge in both stacks. Work In Progress.
 
 ### Project built with:
 
-#### C+ross-platform server-side code:
+#### Cross-platform server-side code:
 * [ASP.NET Core 3.0](https://get.asp.net/)
 * [C#](https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx)
 
